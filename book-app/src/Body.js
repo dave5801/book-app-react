@@ -1,12 +1,14 @@
 import React from 'react';
-
+//on click event handler
+//click handler reveal state
+//toggling classes
 class TableRow extends React.Component {
     render() {
        return (
           <tr>
-             <td>{this.props.data.id}</td>
              <td>{this.props.data.name}</td>
-             <td>{this.props.data.age}</td>
+             <td>{this.props.data.img}</td>
+             <td>{this.props.data.price}</td>
           </tr>
        );
     }
@@ -20,18 +22,21 @@ class Body extends React.Component{
            [
               {
                  "id":1,
-                 "name":"Foo",
-                 "age":"20"
+                 "name":"The Hobbit",
+                 "price":"$20",
+                 "img": "picture goes here"
               },
               {
                  "id":2,
-                 "name":"Bar",
-                 "age":"30"
+                 "name":"The Silmarillion",
+                 "price":"$30",
+                 "img": "picture goes here"
               },
               {
                  "id":3,
-                 "name":"Baz",
-                 "age":"40"
+                 "name":"Unfinished tales",
+                 "price":"$40",
+                 "img": "picture goes here"
               }
            ]
         }
