@@ -3,10 +3,18 @@ import './../css/wishlist.css';
 
 class TableRow extends React.Component {
     render() {
+
+      
+      function handleClick(e) {
+         e.preventDefault();
+         console.log('Image was clicked.');
+      }
+
+
        return (
           <tr>
              <td>{this.props.data.name}</td>
-             <td><img src = {this.props.data.img}/></td>
+             <td><img src = {this.props.data.img} onClick={handleClick}/></td>
              <td>{this.props.data.price}</td>
           </tr>
        );
