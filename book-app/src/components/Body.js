@@ -24,19 +24,19 @@ class Body extends React.Component{
                  "id":1,
                  "name":"The Hobbit",
                  "price":"$20",
-                 "img": "picture goes here"
+                 "img": require('./../static/hobbit.png')
               },
               {
                  "id":2,
                  "name":"The Silmarillion",
                  "price":"$30",
-                 "img": "picture goes here"
+                 "img": require('./../static/silmarillion.png')
               },
               {
                  "id":3,
-                 "name":"Unfinished tales",
+                 "name":"Fall of Gondolin",
                  "price":"$40",
-                 "img": "picture goes here"
+                 "img": require('./../static/fallOfGondolin.png')
               }
            ]
         }
@@ -51,8 +51,8 @@ class Body extends React.Component{
             </p>
             <table>
                <tbody>
-                  {this.state.data.map((person, i) => <TableRow key = {i} 
-                     data = {person} />)}
+                  {this.state.data.map((book, i) => <TableRow key = {i} 
+                     data = {book} />)}
                </tbody>
             </table>
             <a
