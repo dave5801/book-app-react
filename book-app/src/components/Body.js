@@ -2,19 +2,23 @@ import React from 'react';
 import './../css/wishlist.css';
 
 class TableRow extends React.Component {
-    render() {
+   constructor(props){
+      super(props);
+     // this.onClick = this.onClick.bind(this);
+     this.handleClick = this.handleClick.bind(this);
+   } 
+   
+   handleClick(e) {
+      e.preventDefault();
+      console.log(this.props);
+   }
 
-      
-      function handleClick(e) {
-         e.preventDefault();
-         console.log('Image was clicked.');
-      }
-
+   render() {
 
        return (
           <tr>
              <td>{this.props.data.name}</td>
-             <td><img src = {this.props.data.img} onClick={handleClick}/></td>
+             <td><img src = {this.props.data.img} onClick={this.handleClick}/></td>
              <td>{this.props.data.price}</td>
           </tr>
        );
