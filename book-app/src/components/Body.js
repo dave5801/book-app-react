@@ -1,13 +1,12 @@
 import React from 'react';
-//on click event handler
-//click handler reveal state
-//toggling classes
+import './../css/wishlist.css';
+
 class TableRow extends React.Component {
     render() {
        return (
           <tr>
              <td>{this.props.data.name}</td>
-             <td>{this.props.data.img}</td>
+             <td><img src = {this.props.data.img}/></td>
              <td>{this.props.data.price}</td>
           </tr>
        );
@@ -69,3 +68,7 @@ class Body extends React.Component{
     }
   }
   export default Body;
+//Notes
+  //on click event handler
+//click handler reveal state
+//toggling classes
