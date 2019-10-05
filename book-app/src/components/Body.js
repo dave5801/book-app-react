@@ -4,21 +4,13 @@ import './../css/wishlist.css';
 class TableRow extends React.Component {
    constructor(props){
       super(props);
-     // this.onClick = this.onClick.bind(this);
-     this.handleClick = this.handleClick.bind(this);
    } 
-   
-   handleClick(e) {
-      e.preventDefault();
-      console.log(this.props);
-   }
-
    render() {
-
+      console.log(this.state);
        return (
           <tr>
              <td>{this.props.data.name}</td>
-             <td><img src = {this.props.data.img} onClick={this.handleClick}/></td>
+             <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
              <td>{this.props.data.price}</td>
           </tr>
        );
@@ -28,6 +20,7 @@ class TableRow extends React.Component {
 class Body extends React.Component{
     constructor() {
         super();
+        this.updateCart = this.updateCart.bind(this);
         this.state = {
            data: 
            [
@@ -49,9 +42,18 @@ class Body extends React.Component{
                  "price":"$40",
                  "img": require('./../static/fallOfGondolin.png')
               }
-           ]
+           ],
+           shoppingCart : []
         }
      }
+
+    updateCart(bookToBuy){
+      if (!this.state.shoppingCart.includes(bookToBuy)){
+         this.setState({shoppingCart : [...this.state.shoppingCart, bookToBuy]});
+         console.log(this.state);
+      }   
+   }
+
     render(){
       return (
         <div className="App">
@@ -63,7 +65,7 @@ class Body extends React.Component{
             <table>
                <tbody>
                   {this.state.data.map((book, i) => <TableRow key = {i} 
-                     data = {book} />)}
+                     data = {book} addToCart={this.updateCart} />)}
                </tbody>
             </table>
             <a
