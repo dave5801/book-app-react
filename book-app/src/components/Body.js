@@ -16,10 +16,28 @@ class TableRow extends React.Component {
     }
  }
 
+class ShoppingCart extends React.Component{
+   constructor(props){
+      super(props)
+   }
+   render(){
+      if(!this.props.showCart){
+         return null;
+      }else{
+         return (
+            <div className="shoppingCartBooks">
+               This is the Shopping Cart
+            </div>
+         );
+      }
+   }
+}
+
 class Body extends React.Component{
     constructor() {
         super();
         this.updateCart = this.updateCart.bind(this);
+        this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
         this.state = {
            data: 
            [
@@ -42,9 +60,16 @@ class Body extends React.Component{
                  "img": require('./../static/fallOfGondolin.png')
               }
            ],
-           shoppingCart : []
+           shoppingCart : [],
+           showCart: false
         }
      }
+    toggleShoppingCartOnClick(){
+       //console.log("Show Cart " +this.state.showCart)
+       this.setState(state=> ({
+         showCart: !state.showCart
+       }));
+    }
 
     updateCart(bookToBuy){
       if (!this.state.shoppingCart.includes(bookToBuy)){
@@ -75,6 +100,14 @@ class Body extends React.Component{
             >
               This will be the wishlist
             </a>
+
+            <div>
+               <ShoppingCart show={this.state.showCart}/>
+               <button onClick={this.toggleShoppingCartOnClick}>
+                  {this.state.showCart ? 'Hide' : 'Show'}
+               </button>
+            </div>
+
           </header>
         </div>
       );
