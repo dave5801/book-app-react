@@ -106,7 +106,7 @@ class Body extends React.Component{
             <div>
                <ShoppingCart show={this.state.showCart} getShoppingCart={this.state.shoppingCart}/>
                <button onClick={this.toggleShoppingCartOnClick}>
-                  {this.state.showCart ? 'Hide' : 'Show'}
+                  {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
                </button>
             </div>
             </header>
