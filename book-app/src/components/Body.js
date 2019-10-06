@@ -21,9 +21,11 @@ class ShoppingCart extends React.Component{
       super(props)
    }
    render(){
-      if(!this.props.showCart){
+      if(!this.props.show){
+         console.log("Inside Shopping cart");
          return null;
       }else{
+         
          return (
             <div className="shoppingCartBooks">
                This is the Shopping Cart
@@ -92,15 +94,6 @@ class Body extends React.Component{
                      data = {book} addToCart={this.updateCart} />)}
                </tbody>
             </table>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              This will be the wishlist
-            </a>
-
             <div>
                <ShoppingCart show={this.state.showCart}/>
                <button onClick={this.toggleShoppingCartOnClick}>
