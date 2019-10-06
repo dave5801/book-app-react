@@ -21,15 +21,24 @@ class ShoppingCart extends React.Component{
       super(props)
    }
    render(){
+      
       if(!this.props.show){
          console.log("Inside Shopping cart");
          return null;
       }else{
-         
+         //console.log("Shopping car " +this.props.getShoppingCart);
+         const booksInCart = this.props.getShoppingCart;
          return (
+           
             <div className="shoppingCartBooks">
                This is the Shopping Cart
+               <ol>
+               {booksInCart.map(book => (
+                  <li key>{book.name}</li>
+               ))}
+               </ol>
             </div>
+             
          );
       }
    }
@@ -95,13 +104,13 @@ class Body extends React.Component{
                </tbody>
             </table>
             <div>
-               <ShoppingCart show={this.state.showCart}/>
+               <ShoppingCart show={this.state.showCart} getShoppingCart={this.state.shoppingCart}/>
                <button onClick={this.toggleShoppingCartOnClick}>
                   {this.state.showCart ? 'Hide' : 'Show'}
                </button>
             </div>
-
-          </header>
+            </header>
+          
         </div>
       );
     }
