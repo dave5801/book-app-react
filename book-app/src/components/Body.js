@@ -6,7 +6,6 @@ class TableRow extends React.Component {
       super(props);
    } 
    render() {
-      console.log(this.state);
        return (
           <tr>
              <td>{this.props.data.name}</td>
@@ -86,3 +85,4 @@ class Body extends React.Component{
   //on click event handler
 //click handler reveal state
 //toggling classes
+//React - conditional rendering
