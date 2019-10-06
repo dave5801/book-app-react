@@ -1,22 +1,54 @@
 import React from 'react';
-//on click event handler
-//click handler reveal state
-//toggling classes
+import './../css/wishlist.css';
+
 class TableRow extends React.Component {
-    render() {
+   constructor(props){
+      super(props);
+   } 
+   render() {
        return (
           <tr>
              <td>{this.props.data.name}</td>
-             <td>{this.props.data.img}</td>
+             <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
              <td>{this.props.data.price}</td>
           </tr>
        );
     }
  }
 
+class ShoppingCart extends React.Component{
+   constructor(props){
+      super(props)
+   }
+   render(){
+      
+      if(!this.props.show){
+         console.log("Inside Shopping cart");
+         return null;
+      }else{
+         //console.log("Shopping car " +this.props.getShoppingCart);
+         const booksInCart = this.props.getShoppingCart;
+         return (
+           
+            <div className="shoppingCartBooks">
+               This is the Shopping Cart
+               <ol>
+               {booksInCart.map(book => (
+                  <li key>{book.name}</li>
+               ))}
+               </ol>
+            </div>
+             
+         );
+      }
+   }
+}
+
 class Body extends React.Component{
     constructor() {
         super();
+        this.updateCart = this.updateCart.bind(this);
+        this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
         this.state = {
            data: 
            [
@@ -24,23 +56,39 @@ class Body extends React.Component{
                  "id":1,
                  "name":"The Hobbit",
                  "price":"$20",
-                 "img": "picture goes here"
+                 "img": require('./../static/hobbit.png')
               },
               {
                  "id":2,
                  "name":"The Silmarillion",
                  "price":"$30",
-                 "img": "picture goes here"
+                 "img": require('./../static/silmarillion.png')
               },
               {
                  "id":3,
-                 "name":"Unfinished tales",
+                 "name":"Fall of Gondolin",
                  "price":"$40",
-                 "img": "picture goes here"
+                 "img": require('./../static/fallOfGondolin.png')
               }
-           ]
+           ],
+           shoppingCart : [],
+           showCart: false
         }
      }
+    toggleShoppingCartOnClick(){
+       //console.log("Show Cart " +this.state.showCart)
+       this.setState(state=> ({
+         showCart: !state.showCart
+       }));
+    }
+
+    updateCart(bookToBuy){
+      if (!this.state.shoppingCart.includes(bookToBuy)){
+         this.setState({shoppingCart : [...this.state.shoppingCart, bookToBuy]});
+         console.log(this.state);
+      }   
+   }
+
     render(){
       return (
         <div className="App">
@@ -51,21 +99,25 @@ class Body extends React.Component{
             </p>
             <table>
                <tbody>
-                  {this.state.data.map((person, i) => <TableRow key = {i} 
-                     data = {person} />)}
+                  {this.state.data.map((book, i) => <TableRow key = {i} 
+                     data = {book} addToCart={this.updateCart} />)}
                </tbody>
             </table>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              This will be the wishlist
-            </a>
-          </header>
+            <div>
+               <ShoppingCart show={this.state.showCart} getShoppingCart={this.state.shoppingCart}/>
+               <button onClick={this.toggleShoppingCartOnClick}>
+                  {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
+               </button>
+            </div>
+            </header>
+          
         </div>
       );
     }
   }
   export default Body;
+//Notes
+  //on click event handler
+//click handler reveal state
+//toggling classes
+//React - conditional rendering
