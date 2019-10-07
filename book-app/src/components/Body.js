@@ -78,13 +78,12 @@ class Body extends React.Component{
      }
    removeItemFromShoppingCartOnClick(bookId){
       
-   for(var book in this.state.shoppingCart){
-      if(bookId == book.id){
-         console.log("remove this book " +book.name);
-      }
-   }
+   console.log("Whole cart ", this.state.shoppingCart);
 
-     // console.log("Remove from Cart ", bookId)
+   this.state.shoppingCart =this.state.shoppingCart.filter(function(book){
+         return book.id != bookId
+   });
+
    }
     toggleShoppingCartOnClick(){
        //console.log("Show Cart " +this.state.showCart)
