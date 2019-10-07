@@ -6,14 +6,14 @@ class TableRow extends React.Component {
       super(props);
    } 
    render() {
-       return (
-          <tr>
-             <td>{this.props.data.name}</td>
-             <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
-             <td>{this.props.data.price}</td>
-          </tr>
-       );
-    }
+         return (
+            <tr>
+               <td>{this.props.data.name}</td>
+               <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
+               <td>{this.props.data.price}</td>
+            </tr>
+         );
+      }  
  }
 
 class ShoppingCart extends React.Component{
@@ -26,15 +26,15 @@ class ShoppingCart extends React.Component{
          console.log("Inside Shopping cart");
          return null;
       }else{
-         //console.log("Shopping car " +this.props.getShoppingCart);
          const booksInCart = this.props.getShoppingCart;
+         //onClick= {()=>this.props.addToCart(this.props.data)
          return (
            
             <div className="shoppingCartBooks">
                This is the Shopping Cart
                <ol>
                {booksInCart.map(book => (
-                  <li key>{book.name}</li>
+                  <li onClick={()=>this.props.removeItem(book.id)} key={book.name}>{book.name}</li>
                ))}
                </ol>
             </div>
@@ -49,6 +49,7 @@ class Body extends React.Component{
         super();
         this.updateCart = this.updateCart.bind(this);
         this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
+        this.removeItemFromShoppingCartOnClick = this.removeItemFromShoppingCartOnClick.bind(this);
         this.state = {
            data: 
            [
@@ -75,6 +76,16 @@ class Body extends React.Component{
            showCart: false
         }
      }
+   removeItemFromShoppingCartOnClick(bookId){
+      
+   for(var book in this.state.shoppingCart){
+      if(bookId == book.id){
+         console.log("remove this book " +book.name);
+      }
+   }
+
+     // console.log("Remove from Cart ", bookId)
+   }
     toggleShoppingCartOnClick(){
        //console.log("Show Cart " +this.state.showCart)
        this.setState(state=> ({
@@ -90,30 +101,34 @@ class Body extends React.Component{
    }
 
     render(){
+       
       return (
-        <div className="App">
-          <header className="App-header">
-    
-            <p>
-              This is my book application
-            </p>
-            <table>
-               <tbody>
-                  {this.state.data.map((book, i) => <TableRow key = {i} 
-                     data = {book} addToCart={this.updateCart} />)}
-               </tbody>
-            </table>
-            <div>
-               <ShoppingCart show={this.state.showCart} getShoppingCart={this.state.shoppingCart}/>
-               <button onClick={this.toggleShoppingCartOnClick}>
-                  {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
-               </button>
+            <div className="App">
+              <header className="App-header">
+        
+                <p>
+                  Tolkien Book Store
+                </p>
+                <table>
+                   <tbody>
+                      {this.state.data.map((book, i) => <TableRow key = {i} 
+                         data = {book} addToCart={this.updateCart} />)}
+                   </tbody>
+                </table>
+                <div>
+                   <ShoppingCart show={this.state.showCart} 
+                   getShoppingCart={this.state.shoppingCart}
+                   removeItem = {this.removeItemFromShoppingCartOnClick}
+                   />
+                   <button onClick={this.toggleShoppingCartOnClick}>
+                      {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
+                   </button>
+                </div>
+                </header>
+              
             </div>
-            </header>
-          
-        </div>
-      );
-    }
+          );
+       }
   }
   export default Body;
 //Notes
