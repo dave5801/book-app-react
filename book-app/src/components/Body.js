@@ -1,16 +1,16 @@
 import React from 'react';
 import './../css/wishlist.css';
 
-class TableRow extends React.Component {
+class BookInfoRow extends React.Component {
    constructor(props){
       super(props);
    } 
    render() {
          return (
             <tr>
-               <td>{this.props.data.name}</td>
-               <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
-               <td>{this.props.data.price}</td>
+               <td>{this.props.book.name}</td>
+               <td><img src = {this.props.book.img} onClick= {()=>this.props.addToCart(this.props.book)}/></td>
+               <td>{this.props.book.price}</td>
             </tr>
          );
       }  
@@ -48,12 +48,12 @@ class Body extends React.Component{
     constructor() {
         super();
         //bind Methods
-        this.updateCart = this.updateCart.bind(this);
-        this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
+        this.addBookToCart = this.addBookToCart.bind(this);
+        this.toggleDisplayShoppingCartOnClick = this.toggleDisplayShoppingCartOnClick.bind(this);
         this.removeBookFromShoppingCartOnClick = this.removeBookFromShoppingCartOnClick.bind(this);
         //this is hardcoded, ideally I wanted to use the Google Books API
         this.state = {
-           data: 
+           books: 
            [
               {
                  "id":1,
@@ -79,19 +79,18 @@ class Body extends React.Component{
         }
      }
      removeBookFromShoppingCartOnClick(bookId){
-      //console.log("Whole cart ", this.state.shoppingCart);
       this.state.shoppingCart =this.state.shoppingCart.filter(function(book){
             return book.id != bookId
       });
    }
 
-    toggleShoppingCartOnClick(){
+    toggleDisplayShoppingCartOnClick(){
        this.setState(state=> ({
          shoppingCartIsVisible: !state.shoppingCartIsVisible
        }));
     }
 
-    updateCart(bookToBuy){
+    addBookToCart(bookToBuy){
       if (!this.state.shoppingCart.includes(bookToBuy)){
          this.setState({shoppingCart : [...this.state.shoppingCart, bookToBuy]});
          console.log(this.state);
@@ -104,13 +103,14 @@ class Body extends React.Component{
             <div className="App">
               <header className="App-header">
         
-                <p>
+                <h1>
                   Tolkien Book Store
-                </p>
+                </h1>
+                <p>Click The pictures to add to Shopping Cart</p>
                 <table>
                    <tbody>
-                      {this.state.data.map((book, i) => <TableRow key = {i} 
-                         data = {book} addToCart={this.updateCart} />)}
+                      {this.state.books.map((book, i) => <BookInfoRow key = {i} 
+                         book = {book} addToCart={this.addBookToCart} />)}
                    </tbody>
                 </table>
                 <div>
@@ -118,7 +118,7 @@ class Body extends React.Component{
                    getShoppingCart={this.state.shoppingCart}
                    removeItem = {this.removeBookFromShoppingCartOnClick}
                    />
-                   <button onClick={this.toggleShoppingCartOnClick}>
+                   <button onClick={this.toggleDisplayShoppingCartOnClick}>
                       {this.state.shoppingCartIsVisible ? 'Go Back' : 'Proceed to Checkout'}
                    </button>
                 </div>
