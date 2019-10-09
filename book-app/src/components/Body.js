@@ -1,7 +1,7 @@
 import React from 'react';
 import './../css/wishlist.css';
 
-class BookInfoRow extends React.Component {
+class TableOfBooksInShoppingList extends React.Component {
    constructor(props){
       super(props);
    } 
@@ -23,14 +23,13 @@ class ShoppingCart extends React.Component{
    render(){
       
       if(!this.props.displayShoppingCart){
-         console.log("Inside Shopping cart");
          return null;
       }else{
          const booksInCart = this.props.getShoppingCart;
          return (
            
             <div className="shoppingCartBooks">
-               This is the Shopping Cart
+               This is the Shopping Cart, click book's title to remove, then 'Go Back', then 'Proceed to Checkout' to see the updated Shopping List
                <ol>
                {booksInCart.map(book => (
                   <li onClick={()=>this.props.removeItem(book.id)} key={book.name}>{book.name}</li>
@@ -47,10 +46,12 @@ class ShoppingCart extends React.Component{
 class Body extends React.Component{
     constructor() {
         super();
-        //bind Methods
+        
+        //bind Methods, which add, remove, or display elements from shopping list
         this.addBookToCart = this.addBookToCart.bind(this);
         this.toggleDisplayShoppingCartOnClick = this.toggleDisplayShoppingCartOnClick.bind(this);
         this.removeBookFromShoppingCartOnClick = this.removeBookFromShoppingCartOnClick.bind(this);
+        
         //this is hardcoded, ideally I wanted to use the Google Books API
         this.state = {
            books: 
@@ -96,9 +97,7 @@ class Body extends React.Component{
          console.log(this.state);
       }   
    }
-
     render(){
-       
       return (
             <div className="App">
               <header className="App-header">
@@ -109,7 +108,7 @@ class Body extends React.Component{
                 <p>Click The pictures to add to Shopping Cart</p>
                 <table>
                    <tbody>
-                      {this.state.books.map((book, i) => <BookInfoRow key = {i} 
+                      {this.state.books.map((book, i) => <TableOfBooksInShoppingList key = {i} 
                          book = {book} addToCart={this.addBookToCart} />)}
                    </tbody>
                 </table>
@@ -122,8 +121,7 @@ class Body extends React.Component{
                       {this.state.shoppingCartIsVisible ? 'Go Back' : 'Proceed to Checkout'}
                    </button>
                 </div>
-                </header>
-              
+                </header> 
             </div>
           );
        }
