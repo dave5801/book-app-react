@@ -1,16 +1,16 @@
 import React from 'react';
 import './../css/wishlist.css';
 
-class TableRow extends React.Component {
+class TableOfBooksInShoppingList extends React.Component {
    constructor(props){
       super(props);
    } 
    render() {
          return (
             <tr>
-               <td>{this.props.data.name}</td>
-               <td><img src = {this.props.data.img} onClick= {()=>this.props.addToCart(this.props.data)}/></td>
-               <td>{this.props.data.price}</td>
+               <td>{this.props.book.name}</td>
+               <td><img src = {this.props.book.img} onClick= {()=>this.props.addToCart(this.props.book)}/></td>
+               <td>{this.props.book.price}</td>
             </tr>
          );
       }  
@@ -22,16 +22,14 @@ class ShoppingCart extends React.Component{
    }
    render(){
       
-      if(!this.props.show){
-         console.log("Inside Shopping cart");
+      if(!this.props.displayShoppingCart){
          return null;
       }else{
          const booksInCart = this.props.getShoppingCart;
-         //onClick= {()=>this.props.addToCart(this.props.data)
          return (
            
             <div className="shoppingCartBooks">
-               This is the Shopping Cart
+               This is the Shopping Cart, click book's title to remove, then 'Go Back', then 'Proceed to Checkout' to see the updated Shopping List
                <ol>
                {booksInCart.map(book => (
                   <li onClick={()=>this.props.removeItem(book.id)} key={book.name}>{book.name}</li>
@@ -44,14 +42,19 @@ class ShoppingCart extends React.Component{
    }
 }
 
+//main Component
 class Body extends React.Component{
     constructor() {
         super();
-        this.updateCart = this.updateCart.bind(this);
-        this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
-        this.removeItemFromShoppingCartOnClick = this.removeItemFromShoppingCartOnClick.bind(this);
+        
+        //bind Methods, which add, remove, or display elements from shopping list
+        this.addBookToCart = this.addBookToCart.bind(this);
+        this.toggleDisplayShoppingCartOnClick = this.toggleDisplayShoppingCartOnClick.bind(this);
+        this.removeBookFromShoppingCartOnClick = this.removeBookFromShoppingCartOnClick.bind(this);
+        
+        //this is hardcoded, ideally I wanted to use the Google Books API
         this.state = {
-           data: 
+           books: 
            [
               {
                  "id":1,
@@ -73,66 +76,54 @@ class Body extends React.Component{
               }
            ],
            shoppingCart : [],
-           showCart: false
+           shoppingCartIsVisible: false
         }
      }
-   removeItemFromShoppingCartOnClick(bookId){
-      
-   for(var book in this.state.shoppingCart){
-      if(bookId == book.id){
-         console.log("remove this book " +book.name);
-      }
+     removeBookFromShoppingCartOnClick(bookId){
+      this.state.shoppingCart =this.state.shoppingCart.filter(function(book){
+            return book.id != bookId
+      });
    }
 
-     // console.log("Remove from Cart ", bookId)
-   }
-    toggleShoppingCartOnClick(){
-       //console.log("Show Cart " +this.state.showCart)
+    toggleDisplayShoppingCartOnClick(){
        this.setState(state=> ({
-         showCart: !state.showCart
+         shoppingCartIsVisible: !state.shoppingCartIsVisible
        }));
     }
 
-    updateCart(bookToBuy){
+    addBookToCart(bookToBuy){
       if (!this.state.shoppingCart.includes(bookToBuy)){
          this.setState({shoppingCart : [...this.state.shoppingCart, bookToBuy]});
          console.log(this.state);
       }   
    }
-
     render(){
-       
       return (
             <div className="App">
               <header className="App-header">
         
-                <p>
+                <h1>
                   Tolkien Book Store
-                </p>
+                </h1>
+                <p>Click The pictures to add to Shopping Cart</p>
                 <table>
                    <tbody>
-                      {this.state.data.map((book, i) => <TableRow key = {i} 
-                         data = {book} addToCart={this.updateCart} />)}
+                      {this.state.books.map((book, i) => <TableOfBooksInShoppingList key = {i} 
+                         book = {book} addToCart={this.addBookToCart} />)}
                    </tbody>
                 </table>
                 <div>
-                   <ShoppingCart show={this.state.showCart} 
+                   <ShoppingCart displayShoppingCart={this.state.shoppingCartIsVisible} 
                    getShoppingCart={this.state.shoppingCart}
-                   removeItem = {this.removeItemFromShoppingCartOnClick}
+                   removeItem = {this.removeBookFromShoppingCartOnClick}
                    />
-                   <button onClick={this.toggleShoppingCartOnClick}>
-                      {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
+                   <button onClick={this.toggleDisplayShoppingCartOnClick}>
+                      {this.state.shoppingCartIsVisible ? 'Go Back' : 'Proceed to Checkout'}
                    </button>
                 </div>
-                </header>
-              
+                </header> 
             </div>
           );
        }
   }
   export default Body;
-//Notes
-  //on click event handler
-//click handler reveal state
-//toggling classes
-//React - conditional rendering
