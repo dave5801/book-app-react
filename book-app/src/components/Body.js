@@ -22,12 +22,11 @@ class ShoppingCart extends React.Component{
    }
    render(){
       
-      if(!this.props.show){
+      if(!this.props.displayShoppingCart){
          console.log("Inside Shopping cart");
          return null;
       }else{
          const booksInCart = this.props.getShoppingCart;
-         //onClick= {()=>this.props.addToCart(this.props.data)
          return (
            
             <div className="shoppingCartBooks">
@@ -44,12 +43,15 @@ class ShoppingCart extends React.Component{
    }
 }
 
+//main Component
 class Body extends React.Component{
     constructor() {
         super();
+        //bind Methods
         this.updateCart = this.updateCart.bind(this);
         this.toggleShoppingCartOnClick = this.toggleShoppingCartOnClick.bind(this);
-        this.removeItemFromShoppingCartOnClick = this.removeItemFromShoppingCartOnClick.bind(this);
+        this.removeBookFromShoppingCartOnClick = this.removeBookFromShoppingCartOnClick.bind(this);
+        //this is hardcoded, ideally I wanted to use the Google Books API
         this.state = {
            data: 
            [
@@ -73,22 +75,19 @@ class Body extends React.Component{
               }
            ],
            shoppingCart : [],
-           showCart: false
+           shoppingCartIsVisible: false
         }
      }
-   removeItemFromShoppingCartOnClick(bookId){
-      
-   console.log("Whole cart ", this.state.shoppingCart);
-
-   this.state.shoppingCart =this.state.shoppingCart.filter(function(book){
-         return book.id != bookId
-   });
-
+     removeBookFromShoppingCartOnClick(bookId){
+      //console.log("Whole cart ", this.state.shoppingCart);
+      this.state.shoppingCart =this.state.shoppingCart.filter(function(book){
+            return book.id != bookId
+      });
    }
+
     toggleShoppingCartOnClick(){
-       //console.log("Show Cart " +this.state.showCart)
        this.setState(state=> ({
-         showCart: !state.showCart
+         shoppingCartIsVisible: !state.shoppingCartIsVisible
        }));
     }
 
@@ -115,12 +114,12 @@ class Body extends React.Component{
                    </tbody>
                 </table>
                 <div>
-                   <ShoppingCart show={this.state.showCart} 
+                   <ShoppingCart displayShoppingCart={this.state.shoppingCartIsVisible} 
                    getShoppingCart={this.state.shoppingCart}
-                   removeItem = {this.removeItemFromShoppingCartOnClick}
+                   removeItem = {this.removeBookFromShoppingCartOnClick}
                    />
                    <button onClick={this.toggleShoppingCartOnClick}>
-                      {this.state.showCart ? 'Go Back' : 'Proceed to Checkout'}
+                      {this.state.shoppingCartIsVisible ? 'Go Back' : 'Proceed to Checkout'}
                    </button>
                 </div>
                 </header>
@@ -130,8 +129,3 @@ class Body extends React.Component{
        }
   }
   export default Body;
-//Notes
-  //on click event handler
-//click handler reveal state
-//toggling classes
-//React - conditional rendering
